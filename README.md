@@ -11,8 +11,8 @@ Before you can run the application, you will need to install Docker. Follow the 
 Clone the repository to your local machine using the following command:
 
 ```sh
-git clone [REPOSITORY_URL] your_project_name
-cd your_project_name
+git clone git@github.com:luismetzger/inadev_project.git inadev_task_app
+cd inadev_task_app
 ```
 
 ## Step 3: Build the Docker Containers
