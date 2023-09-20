@@ -1,0 +1,32 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl mb-4">Create New Task</h1>
+
+  <% if @task.errors.any? %>
+    <div class="bg-red-500 text-white p-3 mb-4 rounded">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @task, local: false do |form| %>
+    <div class="mb-4">
+      <%= form.label :title, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :title, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :description, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_area :description, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" %>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <%= form.submit "Create Task", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>
+
+

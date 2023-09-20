@@ -1,0 +1,56 @@
+version: '3.8'
+
+x-base: &base
+  build:
+    context: .
+    dockerfile: ./Dockerfile
+    args:
+      RUBY_VERSION: '3.1.2'
+  stdin_open: true
+  tty: true
+  volumes:
+    - .:/task_app:cached
+    - bundle:/usr/local/bundle
+    - node_modules:/task-app/node_modules
+  environment:
+    - DB_PORT=3306
+    - DB_HOST=mysql
+    - DB_NAME=inadev_task_app_development
+    - DB_USERNAME=root
+    - DB_PASSWORD=root_password
+  depends_on:
+    - mysql
+
+services:
+  web:
+    <<: *base
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0' "
+    container_name: task-app
+    ports:
+      - 3000:3000
+
+  css:
+    <<: *base
+    command: yarn build:css --watch
+
+  js:
+    <<: *base
+    command: yarn build --watch
+
+  mysql:
+    container_name: task-app-mysql
+    image: mariadb
+    environment:
+      - MYSQL_DATABASE=task_app_development
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root_password
+    ports:
+      - 3306:3306
+    volumes:
+      - data_volume:/var/lib/mysql
+
+volumes:
+  data_volume:
+  node_modules:
+  bundle:

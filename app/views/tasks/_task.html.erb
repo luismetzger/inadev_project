@@ -1,0 +1,28 @@
+<tr id="task_<%= task.id %>" data-task-id="<%= task.id %>">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= link_to task.title, task_path(task), class: "text-blue-600 hover:text-blue-900" %>
+  </td>
+  <td class="px-6 py-4">
+    <%= task.description %>
+  </td>
+  <td class="px-6 py-4">
+    <%= task.created_at.strftime('%B %d, %Y') %>
+  </td>
+  <td class="px-6 py-4">
+    <%= link_to (task.completed ? 'Mark as Incomplete' : 'Mark as Complete'),
+                toggle_completion_task_path(task),
+                data: {
+                  controller: "task",
+                  action: "task#toggle",
+                  task: { id: task.id, url: toggle_completion_task_path(task) }
+                },
+                class: "text-green-500 cursor-pointer",
+                remote: true
+    %>
+  </td>
+  <td class="px-6 py-4 text-right text-sm">
+    <%= link_to 'Edit', edit_task_path(task), class: "text-blue-500 hover:text-blue-700" %> |
+    <%= link_to 'Delete', task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-500 hover:text-red-700" %>
+  </td>
+</tr>
+

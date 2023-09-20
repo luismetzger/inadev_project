@@ -1,0 +1,42 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl mb-4">Task List</h1>
+
+  <%= turbo_frame_tag 'new_task_modal', data: { controller: "modal" } do %>
+    <%= render 'form', task: @task ||= Task.new %>
+  <% end %>
+
+  <!-- Error/Success Banner -->
+  <%= render 'tasks/partials/notifications' %>
+
+  <!-- New Task Button -->
+  <div class="mb-4">
+    <%= link_to 'New Task', new_task_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block", remote: true %>
+  </div>
+
+  <!-- Task Table -->
+  <table class="min-w-full bg-white mb-8">
+    <thead>
+    <tr>
+      <th class="w-1/4 py-2">Title</th>
+      <th class="w-1/2 py-2">Description</th>
+      <th class="w-1/4 py-2">Status</th>
+      <th class="w-1/4 py-2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through tasks and display them here, with links to edit, mark as complete/incomplete, and delete -->
+    <% @tasks.each do |task| %>
+      <tr>
+        <td class="border px-4 py-2"><%= task.title %></td>
+        <td class="border px-4 py-2"><%= task.description %></td>
+        <td class="border px-4 py-2"><%= task.completed ? 'Completed' : 'Incomplete' %></td>
+        <td class="border px-4 py-2 flex items-center space-x-3">
+          <%= link_to 'Edit', edit_task_path(task), class: "text-blue-600 bg-blue-100 border rounded px-4 py-2 hover:bg-blue-200" %>
+          <%= button_to 'Delete', task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 bg-red-100 border rounded px-4 py-2 hover:bg-red-200" %>
+          <%= button_to (task.completed ? 'Mark as Incomplete' : 'Mark as Complete'), toggle_completion_task_path(task), method: :put, form: { data: { action: "task#toggle", task: { id: task.id, url: toggle_completion_task_path(task) }}}, class: "text-green-600 bg-green-100 border rounded px-4 py-2 hover:bg-green-200" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

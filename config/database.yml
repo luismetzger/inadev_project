@@ -1,0 +1,62 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  timeout: 1000
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  protocol: tcp
+
+development:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+
+test:
+  <<: *default
+  database: inadev_task_app_test
+  username: root
+  password: root_password
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  timeout: 1000
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+
+
+#default: &default
+#  adapter: mysql2
+#  encoding: utf8
+#  pool: 5
+#  timeout: 1000
+#  host: localhost
+#  port: 3306
+#  username: root
+#  password: password
+
+#development:
+#  <<: *default
+#  database: inadev_task_app_development
+
+#test:
+#  <<: *default
+#  database: inadev_task_app_test
+
+#production:
+#  adapter: mysql2
+#  encoding: utf8
+#  pool: 5
+#  timeout: 1000
+#  database: <%#= ENV['DB_NAME'] %>
+#  username: <%#= ENV['DB_USERNAME'] %>
+#  password: <%#= ENV['DB_PASSWORD'] %>
+#  host: <%#= ENV['DB_HOST'] %>
+#  port: <%#= ENV['DB_PORT'] %>
+
